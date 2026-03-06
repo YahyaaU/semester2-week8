@@ -16,5 +16,3 @@ struct student_record {
  */
 float calculate_average(struct student_record student);
 void display_student(struct student_record student);
-void update_name(struct student_record *student, const char *new_name);
-int update_mark(struct student_record *student, int module_index, float new_mark);

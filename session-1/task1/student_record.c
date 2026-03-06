@@ -42,9 +42,7 @@ int main( void ) {
     
     struct student_record student;
     
-    // TODO: Calculate average grade
-    // TODO: display the average mark
-    
+    // TODO: display the student data and average mark
     
     return 0;
 }
