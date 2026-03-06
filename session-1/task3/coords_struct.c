@@ -53,6 +53,68 @@ int main(void) {
 }
 
 /**
+ * Initialises the grid with axes
+ *
+ * return char** 2D array representing the initialised grid
+ */
+char **initialize_grid(void) {
+    char **grid = (char **)malloc(GRID_SIZE * sizeof(char *));
+    for (int i = 0; i < GRID_SIZE; i++) {
+        grid[i] = (char *)malloc(GRID_SIZE * sizeof(char));
+    }
+
+    // Fill with whitespace characters
+    for (int i = 0; i < GRID_SIZE; i++)
+        for (int j = 0; j < GRID_SIZE; j++)
+            grid[i][j] = ' ';
+
+    // Draw x and y axes
+    for (int i = 0; i < GRID_SIZE; i++) {
+        grid[i][10] = '|'; // Y-axis
+        grid[10][i] = '-'; // X-axis
+    }
+
+    grid[10][10] = '+'; // Origin (0,0)
+
+    return grid;
+}
+
+/*
+ * free allocated grid array
+ */
+void free_grid( grid )
+/**
+ * Draws the grid
+ *
+ * grid The 2D array representing the grid
+ */
+void draw_grid(char **grid) {
+    for (int i = 0; i < GRID_SIZE; i++) {
+        for (int j = 0; j < GRID_SIZE; j++)
+            printf("%c ", grid[i][j]);
+        printf("\n");
+    }
+    printf("\n");
+}
+
+/**
+ * Adds a point to the grid
+ *
+ * grid The 2D array representing the grid
+ * p The point to add
+ */
+void add_point(char **grid, Point p) {
+    // Adjust coordinates for grid's origin (10, 10)
+    int plot_x = p.x + 10; // Offset the x-coordinate by 10 to fit grid range
+    int plot_y = 10 - p.y; // Offset the y-coordinate by 10 and invert it for grid display
+
+    // Check bounds to make sure point stays within grid
+    if (plot_x >= 0 && plot_x < GRID_SIZE && plot_y >= 0 && plot_y < GRID_SIZE) {
+        grid[plot_y][plot_x] = '*'; // Place the point on the grid
+    }
+}
+
+/**
  * Move a point by the provided delta
  *
  * This function creates a new point by adding the delta values to the original point.
@@ -107,60 +169,3 @@ Point swap_coords(Point p) {
     return newp;
 }
 
-/**
- * Initialises the grid with axes
- *
- * return char** 2D array representing the initialised grid
- */
-char **initialize_grid(void) {
-    char **grid = (char **)malloc(GRID_SIZE * sizeof(char *));
-    for (int i = 0; i < GRID_SIZE; i++) {
-        grid[i] = (char *)malloc(GRID_SIZE * sizeof(char));
-    }
-
-    // Fill with whitespace characters
-    for (int i = 0; i < GRID_SIZE; i++)
-        for (int j = 0; j < GRID_SIZE; j++)
-            grid[i][j] = ' ';
-
-    // Draw x and y axes
-    for (int i = 0; i < GRID_SIZE; i++) {
-        grid[i][10] = '|'; // Y-axis
-        grid[10][i] = '-'; // X-axis
-    }
-
-    grid[10][10] = '+'; // Origin (0,0)
-
-    return grid;
-}
-
-/**
- * Draws the grid
- *
- * grid The 2D array representing the grid
- */
-void draw_grid(char **grid) {
-    for (int i = 0; i < GRID_SIZE; i++) {
-        for (int j = 0; j < GRID_SIZE; j++)
-            printf("%c ", grid[i][j]);
-        printf("\n");
-    }
-    printf("\n");
-}
-
-/**
- * Adds a point to the grid
- *
- * grid The 2D array representing the grid
- * p The point to add
- */
-void add_point(char **grid, Point p) {
-    // Adjust coordinates for grid's origin (10, 10)
-    int plot_x = p.x + 10; // Offset the x-coordinate by 10 to fit grid range
-    int plot_y = 10 - p.y; // Offset the y-coordinate by 10 and invert it for grid display
-
-    // Check bounds to make sure point stays within grid
-    if (plot_x >= 0 && plot_x < GRID_SIZE && plot_y >= 0 && plot_y < GRID_SIZE) {
-        grid[plot_y][plot_x] = '*'; // Place the point on the grid
-    }
-}
